@@ -3,9 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo</title>
+    <title>To-Do App Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="FeedbackMessague/style.css">
+    <script defer src="FeedbackMessague/script.js"></script>
+    <script defer src="js/controller.js"></script>
+    <script defer src="js/list.js"></script>
+    <script defer src="js/filter.js"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+
 </head>
-<body>
-    <h1>Teste ToDo</h1>
+<body class="display-flex justify-content-center align-content-center align-items-center">
+    <div class="display-flex flex-direction-column card gap-base">
+        <h1 class="text-align-center headding1">Task Manager</h1>
+        <form class="display-flex gap-xs">
+            <div class="flex1 display-flex flex-direction-column">
+                <input type="text" id="newTask" placeholder="e.g. Buy groceries" class="flex1" autofocus>
+                <span id="error-messague" class="error-messague"></span>
+            </div>
+            <button id="addTask" class="btn btn-primary" type="submit">Add Task</button>
+        </form>
+        <div class="display-flex gap-base justify-content-center align-content-center align-items-center">
+            <div id="tag-pending" class="task pending is-active" tabindex="0">Pending</div>
+            <div id="tag-completed" class="task completed is-active" tabindex="0">Completed</div>
+        </div>
+        <div class="tasks" id="task-pending">
+            <h3 class="headding3">Pending</h3>
+            <div id="list-pending" class="list">
+                <!--Elementos da lista de tarefas pendentes-->
+            </div>
+        </div>
+        <div class="tasks" id="task-completed">
+            <h3 class="headding3">Completed</h3>
+            <div id="list-completed" class="list">
+                <!--Elementos da lista de tarefas completas-->
+            </div>
+        </div>
+    </div>    
 </body>
 </html>
