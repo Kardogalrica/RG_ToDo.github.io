@@ -194,23 +194,33 @@ const toggleTask = {
         if(tagPending.classList.contains('is-active')) {
             tagPending.classList.remove('is-active')
             tagPending.blur()
-            taskPending.classList.add('not-visible')
+            taskPending.classList.remove('not-visible')
             
         } else {
             tagPending.classList.add('is-active')
             tagPending.blur()
-            taskPending.classList.remove('not-visible')
+            taskPending.classList.add('not-visible')
         }
+        this.all()
     },
     completed() {
         if(tagCompleted.classList.contains('is-active')) {
             tagCompleted.classList.remove('is-active')
             tagCompleted.blur()
-            taskCompleted.classList.add('not-visible')
+            taskCompleted.classList.remove('not-visible')
         } else {
             tagCompleted.classList.add('is-active')
             tagCompleted.blur()
-            taskCompleted.classList.remove('not-visible')
+            taskCompleted.classList.add('not-visible')
+        }
+        this.all()
+    },
+    all() {
+
+        if(taskPending.classList.contains('not-visible') && taskCompleted.classList.contains('not-visible')) {
+            taskNotSelected.classList.remove('not-visible')
+        } else {
+            taskNotSelected.classList.add('not-visible')
         }
     }
 }
