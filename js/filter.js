@@ -8,6 +8,8 @@ const tagCompleted = document.querySelector('#tag-completed')
 
 const taskCompleted = document.querySelector('#task-completed')
 
+const taskNotSelected = document.querySelector('#taskNotSelected')
+
 tagPending.addEventListener('click', () => {
     toggleTask.pending()
 })

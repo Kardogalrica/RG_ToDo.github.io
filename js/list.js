@@ -11,13 +11,28 @@ const errorInput = document.querySelector('#error-messague')
 
 
 //Renderização das listas
-const renderLista = () => {
+const renderLista = () => {  
+    /* verifica se a lista pending está vazia */
+    if(task.dataPending.length === 0) {
+       listaPending.classList.add('list-enpty') 
+    } else {
+        listaPending.classList.remove('list-enpty') 
+    }
+
+    /* Adiciona elementos á lista enpty */
     listaPending.innerHTML = ''
     task.dataPending.forEach((item) => {
-        
     listaPending.appendChild(createItem.pending(item,() => {renderLista()}))
     })
 
+    /* verifica se a lista Completed está vazia */
+    if(task.dataCompleted.length === 0) {
+       listaCompleted.classList.add('list-enpty') 
+    } else {
+        listaCompleted.classList.remove('list-enpty') 
+    }
+
+    /* Adiciona elementos á lista completed */
     listaCompleted.innerHTML = ''
     task.dataCompleted.forEach((item) => {
         listaCompleted.appendChild(createItem.completed(item,() => {renderLista()}))
