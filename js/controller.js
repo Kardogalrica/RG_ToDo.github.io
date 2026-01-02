@@ -1,23 +1,34 @@
 //Objecto de gestão da data da task
 const task = {
+    /* Data Total de Tasks */
     dataTask:[],
+    /* Data das Task Pendings */
     dataPending: [],
+    /* Data das Task Completed */
     dataCompleted: [],
+
+    /* OnRedy do objecto, vai buscar a localStorage dataTask e seta a data Task */
     onReady() {
         if(this.validationLocalStorage()) {
             this.dataTask = JSON.parse(localStorage.getItem('dataTask'))
         }
     },
+
+    /* Metodo de inicio da Task */
     init() {
+        /* Cria e filtra a dataTask para Criar as listas da dataPending e dataCompleted */
         this.dataPending = this.dataTask.map((obj) => ({id:obj.id,task:obj.task,isCompleted:obj.isCompleted})).filter(obj => obj.isCompleted === false)
         this.dataCompleted = this.dataTask.map((obj) => ({id:obj.id,task:obj.task,isCompleted:obj.isCompleted})).filter(obj => obj.isCompleted === true)
         if(this.validationDataTask()) {
+            /* Grava na local storage */
             localStorage.setItem('dataTask', JSON.stringify(this.dataTask))
         } else {
+            /* apaga a local storage */
             localStorage.removeItem('dataTask')
             console.error('Erro ao gravar na localStorage')
         }
     },
+    /* Cria uma Task, calculando o seu Id, criando um objecto Task e adicionando á lista dataTask */
     createTask(value) {
         var lastId = 0 
         if(this.dataTask.length > 0) {
@@ -34,33 +45,41 @@ const task = {
         this.dataTask.push(task)    
         this.init()
     },
+    /* Apaga uma Task da dataTask */
     deleteTask(obj) {
         const data = this.dataTask.filter(item => item.id === obj.id && item.task === obj.task)
         const index = this.dataTask.indexOf(data[0])
         this.dataTask.splice(index, 1)
         this.init()
     },
+    /* Atualiza uma Task */
     updatedTask(obj) {
         const data = this.dataTask.filter(item => item.id === obj.id)
         const index = this.dataTask.indexOf(data[0])
         this.dataTask[index].isCompleted = true
         this.init()
     },
+    /* valida a dataTask antes de a gravar na local storage */
     validationDataTask() {
         var isvalid = true
-    
+        /* 
+        verifica se a dataTask:
+        1. é um Array
+        2. o Id é um numero
+        3. o atributo task é um texto
+        4. isCompleted é booleano
+         */
         if(!Array.isArray(this.dataTask) && this.dataTask.every(obj => typeof obj.id !== 'number' || typeof obj.task !== 'string' || typeof obj.isCompleted != 'boolean')) {
             isvalid = false
         }
-    
+        /* verifica se todos os id estt]ao preenchidos */
         const idPreenchido = this.dataTask.filter(obj => obj.id <= 0)
-    
         if(idPreenchido.length != 0) {
             isvalid = false
         }
-    
+
+        /* Verifica se todas as tasks est]ao preenchidas */
         const taskPreenchido = this.dataTask.filter(obj => obj.task.trim() === '')
-    
         if(taskPreenchido.length != 0) {
             isvalid = false
         }
@@ -68,13 +87,20 @@ const task = {
         return isvalid
     
     },
+    /* Valida se a local storage dataTask esta valida */
     validationLocalStorage() {
         try {
             const raw = localStorage.getItem('dataTask')
           
             if (raw) {
               const parsed = JSON.parse(raw)
-        
+                /* 
+                verifica se a dataTask:
+                1. é um Array
+                2. o Id é um numero
+                3. o atributo task é um texto
+                4. isCompleted é booleano
+                */
               if (Array.isArray(parsed) && parsed.every(t => typeof t.id === 'number' && typeof t.task === 'string' && typeof t.isCompleted === 'boolean')) {
                 return true
               } else {
@@ -93,11 +119,14 @@ const task = {
 
 //Objecto de gestão da UI das task
 const createItem = {
-    pending(obj,callback) {    
+    pending(obj,callback) {  
+        /* Cria div pai do item */ 
         const item = document.createElement('div')
+        /* adiciona css */
         item.classList.add('display-flex','gap-xs','align-items-center')
+        /* adiciona tabindex */
         item.setAttribute('tabindex', '0')
-
+        /* adiciona eventos UX */
         item.addEventListener('keydown', (e) => {
             if(e.key === 'Enter') {
                 e.preventDefault()
@@ -114,15 +143,19 @@ const createItem = {
             }
         })
     
+        /* adiciona radio button */
         const radio = document.createElement('div')
+        /* adiciona css */
         radio.classList.add('circulo')
     
+        /* aiciona evento */
         radio.addEventListener('click', () => {
             task.updatedTask(obj)
             createMessague('Task terminada com sucessso','sucess')
             callback()
         })
     
+        /* adiciona nome da task */
         const itemName = document.createElement('span')
         itemName.classList.add('flex1')
         itemName.innerText = obj.task
@@ -132,6 +165,7 @@ const createItem = {
             callback()
         })
     
+        /* diciona icon eliminar a task */
         const trash = document.createElement('i')
         trash.classList.add('fas','fa-trash')
         trash.addEventListener('click', () => {
