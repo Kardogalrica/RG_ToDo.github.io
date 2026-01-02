@@ -44,22 +44,24 @@ task.onReady()
 task.init()
 renderLista()
 
-
+/* Ação do btn add Task */
 btnInput.addEventListener('click', (e) => {
     e.preventDefault()
     errorInput.innerText = ''
+    /* Valida se input está preenchido */
     if(!input.value || input.value.trim() === '') {
         errorInput.innerText = 'Campo Obrigatório!'
         return
     }
 
+    /* Valida se Task já existe */
     const data = task.dataTask.filter(item => item.task === input.value)
-
     if(data.length != 0) {
         errorInput.innerText = 'Já existe uma task na lista!'
         return
     }
 
+    /* Cria Task com sucesso */
     task.createTask(input.value)
     createMessague('Task criada com sucessso','sucess')
     renderLista()
